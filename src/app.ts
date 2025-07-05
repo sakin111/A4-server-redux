@@ -6,9 +6,16 @@ import BorrowRouter from "./app/routes/borrow.routes";
 import { errorHandler } from "./app/utils/errorHandler";
 
 const app : Application = express()
+const cors = require('cors');
 
 
 app.use(express.json());
+
+app.use(cors({
+  origin: "http://localhost:5173", 
+  credentials: true,              
+}));
+
 app.use('/api', BooksRouter);
 app.use('/api',BorrowRouter);
 app.use(errorHandler);
