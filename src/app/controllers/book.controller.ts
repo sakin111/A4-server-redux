@@ -50,7 +50,7 @@ export const getBooks = async (req: Request, res: Response): Promise<void> => {
 // Get book by ID
 export const getBookById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const book = await Books.findById(req.params.bookId);
+    const book = await Books.findById(req.params.id);
 
 
     if (!book) {
@@ -75,7 +75,7 @@ export const getBookById = async (req: Request, res: Response): Promise<void> =>
 // Update a book
 export const updateBook = async (req: Request, res: Response): Promise<void> => {
   try {
-    const book = await Books.findByIdAndUpdate(req.params.bookId, req.body, {
+    const book = await Books.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
@@ -84,7 +84,7 @@ export const updateBook = async (req: Request, res: Response): Promise<void> => 
       res.status(404).json({ success: false, message: "Book not found" });
       return;
     }
-     await Books.updateBookAvailability(req.params.bookId);
+     await Books.updateBookAvailability(req.params.id);
 
 
     res.status(200).json({
@@ -104,8 +104,8 @@ export const updateBook = async (req: Request, res: Response): Promise<void> => 
 // Delete a book
 export const deleteBook = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = req.params.bookId;
-    const book = await Books.findByIdAndDelete(id);
+    const ids = req.params.id;
+    const book = await Books.findByIdAndDelete(ids);
 
     if (!book) {
       res.status(404).json({ success: false, message: "Book not found" });

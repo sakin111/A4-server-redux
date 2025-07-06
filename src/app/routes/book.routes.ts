@@ -5,8 +5,8 @@ const BooksRouter = express.Router();
 
 BooksRouter.post('/books', createBook);
 BooksRouter.get('/books', getBooks);
-BooksRouter.get('/books/:bookId', getBookById);
-BooksRouter.patch('/books/:bookId', updateBook);
-BooksRouter.delete('/books/:bookId', deleteBook);
+BooksRouter.get('/books/:id', getBookById);
+BooksRouter.put('/edit-book/:id', updateBook);
+BooksRouter.delete('/books/:id', deleteBook);
 
 export default BooksRouter

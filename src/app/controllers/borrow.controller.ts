@@ -5,7 +5,8 @@ import { BorrowBooks } from "../models/borrow.model";
 // Borrow a book
 export const borrowBook = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { book: bookId, quantity, dueDate } = req.body;
+    const { quantity, dueDate } = req.body;
+    const bookId = req.params.bookId;
 
     const book = await Books.findById(bookId);
 
@@ -14,9 +15,11 @@ export const borrowBook = async (req: Request, res: Response): Promise<void> => 
       return;
     }
 
-    if (book.copies < quantity) {
-      res.status(400).json({ success: false, message: "Not enough copies available" });
-      return;
+     if (quantity > book.copies) {
+       res.status(400).json({
+        success: false,
+        message: `Cannot borrow more than ${book.copies} copies`,
+      });
     }
 
     book.copies -= quantity;
