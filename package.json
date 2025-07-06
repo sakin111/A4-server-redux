@@ -1,7 +1,7 @@
 {
   "name": "a3-assignment",
   "version": "1.0.0",
-  "description": "\"# A3-assignment\"",
+  "description": "\"# A4-assignment\"",
   "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
