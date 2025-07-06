@@ -21,21 +21,33 @@ export const createBook = async (req: Request, res: Response): Promise<void> => 
 };
 
 // Get books with optional filter
+// ...existing code...
 export const getBooks = async (req: Request, res: Response): Promise<void> => {
   try {
     const filter = req.query.filter ? { genre: req.query.filter } : {};
     const sortBy = req.query.sortBy as string || 'createdAt';
     const sortOrder = req.query.sort === 'desc' ? -1 : 1;
+    const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
+    const skip = (page - 1) * limit;
 
     const books = await Books.find(filter)
       .sort({ [sortBy]: sortOrder })
+      .skip(skip)
       .limit(limit);
+
+    const total = await Books.countDocuments(filter);
 
     res.status(200).json({
       success: true,
       message: "Books retrieved successfully",
       data: books,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -45,6 +57,7 @@ export const getBooks = async (req: Request, res: Response): Promise<void> => {
     });
   }
 };
+// ...existing code...
 
 
 // Get book by ID
